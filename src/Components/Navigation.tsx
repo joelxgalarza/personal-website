@@ -6,7 +6,7 @@ function Navigation(){
 
     return(
         <div>
-                <img src="/public/pfp.png" alt=""/>
+                <img src="/pfp.png" alt=""/>
                 <p>About</p>
                 <p>Experience</p>
                 <p>Education</p>
