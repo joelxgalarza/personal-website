@@ -21,8 +21,9 @@ div{
     align-items: center;
 }
 img{
-    width: 75%;
+    width: 50%;
     border-radius: 50%;
+    border: solid 5px whitesmoke;
 }
 `;
 const StyledP = styled.p`
