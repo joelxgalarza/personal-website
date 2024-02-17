@@ -1,8 +1,10 @@
-import './App.css'
 import About from './Components/About';
-import Navigation from './Components/Navigation';
+import Navigation from './Components/Navbar';
+import '../App.css';
+
 
 function App() {
+  
   return(
     <>
     <Navigation/>
