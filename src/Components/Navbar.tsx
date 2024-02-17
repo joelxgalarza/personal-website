@@ -4,17 +4,13 @@ const StyledDiv = styled.div`
 background-color: #2471A3;
 width: 240px;
 padding: 8px 16px;
-float: left;
 height: 100vh;
 margin: 0;
+position: fixed;
 display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
 font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
 div{
-    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +19,7 @@ div{
 img{
     width: 50%;
     border-radius: 50%;
-    border: solid 5px whitesmoke;
+    border: solid 10px #508DB5;
 }
 `;
 const StyledP = styled.p`
@@ -35,6 +31,7 @@ const StyledP = styled.p`
     transition: .1s color ease-in-out;
     &:hover{
         color: white;
+        cursor: pointer;
     }
 `
 
