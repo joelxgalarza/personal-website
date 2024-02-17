@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import '../assets/fonts.css'
+import "../assets/fonts.css"
 const StyledDiv = styled.div`
     height: 100vh;
-    font-family: sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,6 +10,11 @@ const StyledDiv = styled.div`
     h1{
     margin: 0;
     font-weight: 800;
+    font-size: 6rem;
+    line-height: 5.5rem;
+    }
+    h2{
+        font-weight: 700;
     }
     p{
         font-weight: 600;
