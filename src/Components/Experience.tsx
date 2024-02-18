@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 interface PersonProps{
     month: string;
     year: string;

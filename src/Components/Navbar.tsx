@@ -31,7 +31,7 @@ const StyledP = styled.p`
     transition: .1s color ease-in-out;
     &:hover{
         color: white;
-        cursor: pointer;
+        cursor: default;
     }
 `
 
