@@ -12,7 +12,7 @@ const StyledP = styled.p`
 function Experience(props: PersonProps){
     return(
         <>
-        <StyledP>{props.position}</StyledP>
+        <StyledP><strong>{props.position}</strong></StyledP>
         <StyledP>{props.month} {props.year}</StyledP>
         <StyledP>{props.description}</StyledP>
         </>
