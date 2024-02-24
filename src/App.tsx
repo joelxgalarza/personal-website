@@ -1,12 +1,13 @@
 import Navigation from './Components/Navbar';
 import '../App.css';
 import Content from './Components/Content';
+import Navbar from './Components/Navbar';
 
 function App() {
   
   return(
     <>
-    <Navigation/>
+    <Navbar/>
     <Content/>
     </>
   );

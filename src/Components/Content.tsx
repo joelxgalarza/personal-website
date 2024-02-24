@@ -1,5 +1,6 @@
 import About from "./About";
 import Experience from "./Experience";
+import Project from "./Project";
 import styled from "styled-components";
 
 const FormattedContent = styled.div`
@@ -32,6 +33,13 @@ function Content(){
             description="• Maintained accurate hardware and software inventory records, documenting service requests, resolutions, and
             updates. • Configure and troubleshoot routers and switches and resolve common VLAN routing issues in IPv4 and IPv6
             networks."
+            />
+            <Project
+            name="Nebula"
+            date="February 2024"
+            description="alskdfjkfdlsa;a;lskdfjkdlsa"
+            technologies="ReactJS, TypeScript, Firebase, Git"
+            link=""
             />
         </FormattedContent>
         </>
