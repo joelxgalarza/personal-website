@@ -39,16 +39,25 @@ const StyledImg = styled.img`
   border: solid 10px #508DB5;
 `;
 
-const Navbar = () => (
-  <StyledDiv>
-    <StyledImg src="/pfp.png" alt="" />
-    <StyledP>About</StyledP>
-    <StyledP>Experience</StyledP>
-    <StyledP>Education</StyledP>
-    <StyledP>Project</StyledP>
-    <StyledP>Skills</StyledP>
-    <StyledP>Awards</StyledP>
-  </StyledDiv>
-);
+const Navbar = () => {
+  const scrollToRef = (refId: string) => {
+    const element = document.getElementById(refId);
+    if (element !== null) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <StyledDiv>
+      <StyledImg src="/pfp.png" alt="" />
+      <StyledP onClick={() => scrollToRef("about")}>About</StyledP>
+      <StyledP onClick={() => scrollToRef("experience")}>Experience</StyledP>
+      <StyledP onClick={() => scrollToRef("education")}>Education</StyledP>
+      <StyledP onClick={() => scrollToRef("project")}>Project</StyledP>
+      <StyledP onClick={() => scrollToRef("skills")}>Skills</StyledP>
+      <StyledP>Blog</StyledP>
+    </StyledDiv>
+  );
+};
 
 export default Navbar;

@@ -37,8 +37,6 @@ function About(){
         <h1>Joel <span>Galarza</span></h1>
         <h2>ASPIRING SOFTWARE ENGINEER</h2>
         <p>DANBURY, CT <span>SWE@JOELGALARZA.COM</span></p>
-        <p>6'6 womens rights activist</p>
-        <p>#nomoreperiods</p>
         <p>I am an enthusiastic software developer who loves to build cool software and solve problems</p>
         <a href="../public/SWE_Resume.pdf" target="blank">View Resume as PDF</a>
         <a href="../public/SWE_Resume.pdf">View Projects as PDF</a>
