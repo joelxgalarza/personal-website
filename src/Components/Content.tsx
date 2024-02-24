@@ -47,11 +47,14 @@ function Content(){
                 technologies="ReactJS, TypeScript, Firebase, Git"
                 link=""
             />
+            </div>
+            
             <div id="education">
+            
             </div>
-            <div id="skills">
 
-            </div>
+            <div id="skills">
+            
             </div>
         </FormattedContent>
         </>
