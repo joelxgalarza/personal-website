@@ -49,7 +49,7 @@ const Navbar = () => {
 
   return (
     <StyledDiv>
-      <StyledImg src="../dist/pfp.png" alt="" />
+      <StyledImg src="/pfp.png" alt="" />
       <StyledP onClick={() => scrollToRef("about")}>About</StyledP>
       <StyledP onClick={() => scrollToRef("experience")}>Experience</StyledP>
       <StyledP onClick={() => scrollToRef("projects")}>Projects</StyledP>

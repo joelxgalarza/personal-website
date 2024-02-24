@@ -38,8 +38,8 @@ function About(){
         <h2>ASPIRING SOFTWARE ENGINEER</h2>
         <p>DANBURY, CT <span>SWE@JOELGALARZA.COM</span></p>
         <p>I am an enthusiastic software developer who loves to build cool software and solve problems</p>
-        <a href="../dist/SWE_Resume.pdf" target="blank">View Resume as PDF</a>
-        <a href="../dist/SWE_Resume.pdf">View Projects as PDF</a>
+        <a href="/SWE_Resume.pdf" target="blank">View Resume as PDF</a>
+        <a href="/SWE_Resume.pdf">View Projects as PDF</a>
         <img src=""/>
         <img src=""/>
         </StyledDiv>
