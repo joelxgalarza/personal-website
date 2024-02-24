@@ -21,7 +21,7 @@ function Subject(props: InfoProps){
     const descriptionLines = props.description?.split("\n") || [];
     return(
         <>
-        <StyledP><strong>{props.position_name}</strong></StyledP>
+        <StyledP><strong>{props.position_name} {props.project_name}</strong></StyledP>
         <StyledP>{props.date}</StyledP>
         {/* this lambda maps through the description lines array and renders each line as a paragraph */}
         {descriptionLines.map((line, index) => (

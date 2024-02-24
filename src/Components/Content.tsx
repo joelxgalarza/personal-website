@@ -35,6 +35,7 @@ function Content(){
                 "
                 />
             </div>
+            <h1>Projects</h1>
             <div id="projects">
             <Subject
                 project_name="Nebula"
