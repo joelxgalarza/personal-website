@@ -28,7 +28,7 @@ function Content(){
                 />
                 <Subject 
                 position_name="Information Technology Department Student Aid"
-                date="December 2022 - May 2024"
+                date="September 2021 - May 2022"
                 description="
                 • Maintained accurate hardware and software inventory records, documenting service requests, resolutions, and updates. 
                 • Configure and troubleshoot routers and switches and resolve common VLAN routing issues in IPv4 and IPv6 networks.
@@ -48,7 +48,7 @@ function Content(){
                 link=""
             />
             </div>
-            
+
             <div id="education">
             
             </div>
