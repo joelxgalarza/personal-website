@@ -52,8 +52,8 @@ const Navbar = () => {
       <StyledImg src="/pfp.png" alt="" />
       <StyledP onClick={() => scrollToRef("about")}>About</StyledP>
       <StyledP onClick={() => scrollToRef("experience")}>Experience</StyledP>
+      <StyledP onClick={() => scrollToRef("projects")}>Projects</StyledP>
       <StyledP onClick={() => scrollToRef("education")}>Education</StyledP>
-      <StyledP onClick={() => scrollToRef("project")}>Project</StyledP>
       <StyledP onClick={() => scrollToRef("skills")}>Skills</StyledP>
       <StyledP>Blog</StyledP>
     </StyledDiv>
