@@ -51,11 +51,18 @@ function Content(){
             </div>
 
             <div id="education">
-            
+                <h1>Education</h1>
+            <Subject
+            project_name="Western Governors University B.S in Computer Science"
+            />
             </div>
 
             <div id="skills">
-            
+                <h1>Skills</h1>
+                <Subject
+                    description="January 2024 - Projected(December 2024)"
+                    project_name=""
+                />
             </div>
         </FormattedContent>
         </>
