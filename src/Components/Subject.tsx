@@ -23,10 +23,9 @@ function Subject(props: InfoProps){
         <>
         <StyledP><strong>{props.position_name} {props.project_name}</strong></StyledP>
         <StyledP>{props.date}</StyledP>
-        {/* this lambda maps through the description lines array and renders each line as a paragraph */}
-        {descriptionLines.map((line, index) => (
-        <StyledDescription key={index}>{line}</StyledDescription>
-            ))}
+        <StyledDescription> {props.description}</StyledDescription>
+        <StyledP>{props.technologies}</StyledP>
+
         </>
     )
 }
