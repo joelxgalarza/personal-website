@@ -8,6 +8,7 @@ const StyledDiv = styled.div`
   height: 100vh;
   margin: 0;
   position: fixed;
+  left: 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
