@@ -18,7 +18,6 @@ const StyledDescription = styled.p`
     margin-bottom: 1%;
 `
 function Subject(props: InfoProps){
-    const descriptionLines = props.description?.split("\n") || [];
     return(
         <>
         <StyledP><strong>{props.position_name} {props.project_name}</strong></StyledP>
