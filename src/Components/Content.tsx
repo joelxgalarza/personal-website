@@ -64,7 +64,7 @@ function Content(){
             <div id="skills">
                 <h1>Skills</h1>
                 <Subject
-                    date="Python, Java, PostGreSQL, MongoDB, Firebase, Supabase"
+                    date="Python, Java, Javascript, Node.Js, Express.Js, TensorFlow, PostGreSQL, MongoDB, Firebase, Supabase"
                     description="Googling, Playing Piano, Being 6'0, Run 6 minute mile (5yrs in a row)"
                 />
             </div>
