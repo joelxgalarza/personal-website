@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Video SOP Prompt Builder</title>
+<style>
+  :root{
+    --bg:#0e1411; --panel:#1b2821; --border:#2f3d34; --text:#eef3ef; --muted:#a0b5a7; --accent:#9cc5a5; --code:#121d17;
+  }
+  body{margin:0;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text);padding:30px;max-width:900px;margin:auto;line-height:1.5}
+  h1{color:var(--accent);margin-bottom:10px;font-size:1.8em}
+  label{display:block;margin-top:20px;margin-bottom:6px;color:var(--muted);font-weight:600}
+  textarea,pre,input{width:100%;background:var(--code);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:0.95em;box-sizing:border-box;transition:border 0.2s ease}
+  textarea:focus,pre:focus,input:focus{outline:none;border-color:var(--accent)}
+  button{background:var(--accent);color:var(--bg);border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.95em;transition:background 0.2s ease;margin-right:8px;margin-top:8px}
+  button:hover{background:#b2d4b8}
+  .btn-group{margin-top:12px}
+  .script-list{margin-top:30px}
+  .script-item{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px}
+  .script-actions{margin-top:8px}
+</style>
+</head>
+<body>
+<h1>Video SOP Prompt Builder</h1>
+<label>Paste CSV Row (Universe #, Universe Name, Content Lens, Topic)</label>
+<textarea id="rowdata" rows="3" placeholder="GM-001,Iterative Self-Improvement Systems,Mindset,Daily post-call reflections to identify micro-wins"></textarea>
+<div class="btn-group">
+  <button onclick="parseRow()">Generate Optimized SOP Prompt</button>
+  <button onclick="copyOutput()">Copy to Clipboard</button>
+  <button onclick="clearAll()">Clear</button>
+</div>
+<label style="margin-top:18px">Generated SOP Prompt (editable)</label>
+<textarea id="output" rows="14" placeholder="Your optimized SOP prompt will appear here… You can edit before saving."></textarea>
+
+<!-- Script Library Section -->
+<h2 style="margin-top:26px;color:var(--accent);font-size:1.3em">Script Library</h2>
+<div class="btn-group">
+  <button onclick="saveToLibrary()">Save to Library</button>
+  <button onclick="clearLibrary()">Clear Library</button>
+</div>
+<div id="library" style="margin-top:10px"></div>
+
+<div class="script-list">
+  <h2>Saved Scripts</h2>
+  <div id="scripts"></div>
+</div>
+
+<script>
+let scripts = [];
+
+function parseRow(){
+  const raw = document.getElementById('rowdata').value.trim();
+  if(!raw){ alert('Paste a CSV row first.'); return; }
+  const [id='', name='', lens='', topic=''] = raw.split(',').map(v=>v? v.trim(): '');
+  const prompt = `You are a world-class short-form direct response scriptwriter specializing in high-ticket sales, mindset, and wealth-building content.
+
+Use the data below to create a 45–60 second script that:
+- Hooks attention instantly in the first 3 seconds with a pattern break or shocking statement.
+- Builds anticipation and stakes in the next 12 seconds.
+- Sustains curiosity by stacking open loops, revealing insights in layers.
+- Delivers a satisfying payoff at the end while leaving one deeper question unanswered.
+- Is optimized for spoken delivery with natural pauses, short sentences, and status-laden language.
+- Includes curiosity loops tied directly to money, leverage, or status shifts.
+- Ends without a direct CTA, but with a thought-provoking challenge or statement.
+
+Universe: ${id} — ${name}
+Content Lens: ${lens}
+Topic: ${topic}
+
+--- Script ---
+[0:00–0:03] Hook (pattern break / tension)
+[0:03–0:15] Build (stakes + curiosity)
+[0:15–0:45] Sustain (layered reveals)
+[0:45–0:55] Payoff (insight + open loop)
+
+--- On-Screen Text Boxes ---
+Provide timestamped, high-contrast, curiosity-driven captions (max 6 words each) matching each script beat.`;
+  document.getElementById('output').value = prompt;
+}
+
+function copyOutput(){
+  const output = document.getElementById('output').value;
+  if(output.trim() !== ""){
+    navigator.clipboard.writeText(output).then(()=>{
+      alert("Prompt copied to clipboard!");
+    });
+  }
+}
+
+// ===== Script Library (Add / Edit / Remove) =====
+function loadLibrary(){
+  try{ return JSON.parse(localStorage.getItem('scriptLibrary')||'[]'); }catch(e){ return []; }
+}
+function saveLibrary(arr){ localStorage.setItem('scriptLibrary', JSON.stringify(arr)); }
+function renderLibrary(){
+  const container = document.getElementById('library');
+  const list = loadLibrary();
+  if(list.length===0){ container.innerHTML = '<div class="tips" style="color:var(--muted)">No saved scripts yet. Generate a prompt, edit if needed, then click “Save to Library”.</div>'; return; }
+  container.innerHTML = list.map((item, idx)=>{
+    const safeTitle = item.title.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `
+      <div class="cardRow" style="border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:10px;background:var(--panel)">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+          <div>
+            <div style="font-weight:700">${safeTitle}</div>
+            <div style="font-size:12px;color:var(--muted)">${new Date(item.ts).toLocaleString()}</div>
+          </div>
+          <div class="btn-group" style="margin:0">
+            <button onclick="loadItem(${idx})">Load</button>
+            <button onclick="copyItem(${idx})">Copy</button>
+            <button onclick="renameItem(${idx})">Rename</button>
+            <button onclick="deleteItem(${idx})">Delete</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+function currentTitle(){
+  const row = (document.getElementById('rowdata').value||'').split(',').map(s=>s.trim());
+  const id=row[0]||'UNV-XXX', name=row[1]||'Untitled', topic=row[3]||'';
+  return `${id} — ${name}${topic? ' • '+topic: ''}`;
+}
+function saveToLibrary(){
+  const content = document.getElementById('output').value.trim();
+  if(!content){ alert('Nothing to save. Generate or type a prompt first.'); return; }
+  const list = loadLibrary();
+  list.unshift({ title: currentTitle(), content, ts: Date.now() });
+  saveLibrary(list); renderLibrary();
+}
+function loadItem(idx){
+  const list = loadLibrary();
+  if(!list[idx]) return;
+  document.getElementById('output').value = list[idx].content;
+}
+function copyItem(idx){
+  const list = loadLibrary();
+  if(!list[idx]) return;
+  navigator.clipboard.writeText(list[idx].content).then(()=> alert('Copied from library!'));
+}
+function renameItem(idx){
+  const list = loadLibrary();
+  if(!list[idx]) return;
+  const next = prompt('Rename script:', list[idx].title);
+  if(next && next.trim()){ list[idx].title = next.trim(); saveLibrary(list); renderLibrary(); }
+}
+function deleteItem(idx){
+  const list = loadLibrary();
+  if(!list[idx]) return;
+  if(confirm('Delete this script?')){ list.splice(idx,1); saveLibrary(list); renderLibrary(); }
+}
+function clearLibrary(){
+  if(confirm('Clear all saved scripts?')){ localStorage.removeItem('scriptLibrary'); renderLibrary(); }
+}
+
+// Init
+renderLibrary();
+
+function clearAll(){
+  document.getElementById('rowdata').value = "";
+  document.getElementById('output').value = "";
+}
+  const output = document.getElementById('output').textContent;
+  if(output.trim() !== ""){
+    navigator.clipboard.writeText(output).then(()=>{
+      alert("Prompt copied to clipboard!");
+    });
+  }
+
+
+function clearAll(){
+  document.getElementById('rowdata').value = "";
+  document.getElementById('output').textContent = "";
+}
+</script>
+</body>
+</html>

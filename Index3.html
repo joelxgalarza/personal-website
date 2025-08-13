@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Growth Op • SOP Prompt Builder</title>
+<style>
+  :root{
+    --bg: #0b1220;
+    --panel: #121a2b;
+    --muted: #9fb0d0;
+    --text: #e6ecff;
+    --accent: #7aa2ff;
+    --accent-2: #6ee7b7;
+    --warning: #fbbf24;
+    --border: #1d2840;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color:var(--text); background: radial-gradient(1200px 800px at 10% 0%, #0f1830 0%, var(--bg) 60%);
+  }
+  .wrap{max-width:1100px; margin:0 auto; padding:32px 20px}
+  .header{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px}
+  h1{font-size:clamp(20px, 3.4vw, 32px); margin:0}
+  .sub{color:var(--muted); font-size:14px}
+  .grid{display:grid; grid-template-columns:1fr; gap:16px}
+  @media (min-width: 980px){ .grid{grid-template-columns:1fr 1fr} }
+  .card{background:linear-gradient(180deg, rgba(18,26,43,.9), rgba(12,18,32,.9)); border:1px solid var(--border); border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,.25)}
+  .card h2{margin:0; font-size:18px}
+  .card .hd{padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between}
+  .card .bd{padding:16px 18px}
+  textarea, pre, input, select{width:100%; border-radius:14px; border:1px solid var(--border); background:#0a1222; color:var(--text)}
+  textarea{min-height:260px; padding:12px 14px; resize:vertical; line-height:1.4}
+  pre{padding:14px; white-space:pre-wrap; word-break:break-word; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0a1222; max-height:520px; overflow:auto}
+  .btn{appearance:none; border:1px solid var(--border); background:linear-gradient(180deg, #1b2642, #17223d); color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:600}
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:linear-gradient(180deg, #0e162a, #0b1322)}
+  .btn.accent{background:linear-gradient(180deg, #1e40af, #1b3a9d); border-color:#203a8f}
+  .btn.ok{background:linear-gradient(180deg, #047857, #065f46); border-color:#064e3b}
+  .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .pill{display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); background:#0a1222; border:1px solid var(--border); padding:6px 10px; border-radius:999px}
+  .muted{color:var(--muted)}
+  .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace}
+  .tips{font-size:13px; color:var(--muted)}
+  .toggle{display:flex; align-items:center; gap:10px}
+  .switch{position:relative; width:44px; height:24px; background:#1a2542; border:1px solid var(--border); border-radius:999px; cursor:pointer}
+  .knob{position:absolute; top:2px; left:2px; width:20px; height:20px; background:#93c5fd; border-radius:50%; transition:transform .2s ease}
+  .switch.active .knob{transform:translateX(20px)}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <h1>Growth Op • One‑Click SOP Prompt Builder</h1>
+        <div class="sub">Paste a single row (TSV/CSV) and instantly get a formatted SOP prompt with an Awareness‑tiered Discrete Information Bank.</div>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="loadSample">Load Sample Row</button>
+        <button class="btn" id="clear">Clear</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="hd">
+          <h2>Paste Row Data</h2>
+          <div class="pill"><span>Accepted:</span> <span class="mono">TSV</span> or <span class="mono">CSV</span></div>
+        </div>
+        <div class="bd">
+          <textarea id="input" placeholder="Paste your row here…&#10;&#10;Tip: You can paste a single line with TABs (TSV) or two lines (CSV header + row). The app will attempt to parse fields like Universe, Topic, Awareness, Frameworks, Examples, Visuals, Objections, Beliefs, On‑Screen Text, and CTA."></textarea>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="build">Build SOP Prompt</button>
+            <div class="tips">We’ll merge your row into the hardcoded SOP (with Discrete Info Bank + visualized metric requirements).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd">
+          <h2>Generated SOP Prompt</h2>
+          <div class="row">
+            <button class="btn accent" id="copy">Copy to Clipboard</button>
+          </div>
+        </div>
+        <div class="bd">
+          <pre id="output" placeholder="Your SOP prompt will appear here…"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Awareness Preview Panel -->
+    <div class="card" style="margin-top:16px">
+      <div class="hd">
+        <h2>Awareness Preview • Discrete Item to Weave Into Deep Hook</h2>
+        <div class="row">
+          <div class="toggle" id="previewToggle">
+            <div class="switch" id="switch"><div class="knob"></div></div>
+            <span class="muted">Preview</span>
+          </div>
+          <div class="row">
+            <label class="pill">Level:
+              <select id="awarenessSelect" style="margin-left:8px; padding:6px 10px; width:auto">
+                <option value="auto">Auto</option>
+                <option value="1">1 – Problem Unaware</option>
+                <option value="2">2 – Problem Aware</option>
+                <option value="3" selected>3 – Solution Aware</option>
+                <option value="4">4 – Product Aware</option>
+                <option value="5">5 – Most Aware</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="bd">
+        <pre id="preview" class="hidden"></pre>
+        <div class="tips">Auto detects from your row (3rd field if TSV). You can override with the dropdown. The chosen item is what the script will visualize in the Deep section.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="hd"><h2>What this does</h2></div>
+      <div class="bd">
+        <ul class="tips">
+          <li>Parses your <strong>single row</strong> (TSV/CSV) and injects it beneath <em>Row Data</em> inside the SOP.</li>
+          <li>Adds a <strong>Discrete Information Bank by Awareness Level (1–5)</strong> with metrics/formulas you can reuse.</li>
+          <li>Auto-detects Awareness and shows the <strong>exact discrete item</strong> to weave into the Deep Hook (overrideable).</li>
+          <li>Forces the script to <strong>visualize the chosen metric</strong> in the Deep Hook.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ----------- SOP PROMPT (with Discrete Info Bank requirement) -----------
+  const SOP = `You are a professional short-form direct response scriptwriter for high-ticket online coaching, consulting, and mentorship offers.
+
+I will give you ONE row from my Video SOP Automation Plan CSV.  
+Use the data to create a 60-second video script that maximizes curiosity and conversions **and** generate awareness-tiered **discrete information** the audience can repeat or apply instantly.
+
+## Instructions
+1. Use the [Surface Framework], [Mid Framework], and [Deep Framework] in that exact order.  
+2. Hook Stack:
+   - **0–3s (Surface Hook)** → Use [Surface Example] and integrate [Surface On-Screen Text] as an on-screen caption. High-energy.
+   - **3–15s (Mid Hook)** → Use [Mid Example] and integrate [Mid On-Screen Text]. Tease insight.
+   - **15–45s (Deep Hook)** → Use [Deep Example] and integrate [Deep On-Screen Text]. Narrative + teaching moment.
+   - **45–60s (Payoff + CTA)** → Resolve the deep hook, tie back to [Topic], and use awareness-specific CTA.
+3. Throughout the script:
+   - Reference or subtly bust the [Top Objections (2)].
+   - Reinforce the [Reinforce Beliefs (2)].
+4. Pacing:
+   - Surface = fast, high-energy.
+   - Mid = slightly slower, intrigue-building.
+   - Deep = story + clear teaching.
+5. Include **camera directions** (“lean in,” “cut to close-up”) and **visual hook cues** from [Visual Hooks (2)].
+6. **Visualization Breakdown Requirement**:
+   - Create a **clear, discrete, simple** visual that reinforces the curiosity hook (not distracting) and is tailored to [Topic] + [Target Awareness Level].
+   - Awareness **1–2**: analogy + everyday objects + 2–3 step diagram.
+   - Awareness **3–4**: process flow, chart, or side-by-side comparison.
+   - Awareness **5**: specific metrics, data visuals, or funnel breakdown.
+   - Describe exactly what appears on screen in sync with the spoken lines.
+
+## Discrete Information Requirements (generate in every response)
+Produce a **Discrete Information Bank by Awareness Level (1–5)** tied to the [Topic]. For each level, give **2 discrete, repeatable items** that include a **name**, **definition**, and a **measurable criterion** (metric, threshold, formula, or rule-of-thumb). Format each item as:
+- **Name:**  
+- **What it is (1 sentence):**  
+- **Measure/Threshold (numbers or formula):**  
+- **1-line Example:**  
+
+Guidance by level:
+- **Awareness 1:** Simple rule-of-thumb + relatable analogy metric.
+- **Awareness 2:** Basic diagnostic check + yes/no threshold.
+- **Awareness 3:** Process metric + “X:1 Test” style diagnostic.
+- **Awareness 4:** Side-by-side benchmark or mini-process (3–5 steps) with target ranges.
+- **Awareness 5:** Funnel math, cohort metric, or lag/lead indicator with specific targets.
+
+**Important:** Choose **one** item from the bank that matches the [Target Awareness Level] and **weave it into the Deep Hook** (spoken line + on-screen visual). The visual must display the actual metric/threshold or formula.
+
+**Row Data:**  
+[Paste the entire row from CSV here, including Topic, Awareness Level, frameworks, examples, on-screen text, objections, beliefs, visuals, and CTA line]
+
+**Output Format:**  
+- **Script Title**: [Universe Name] – [Topic] – Awareness [Target Awareness Level]
+- **Full Spoken Script**: written as if the creator is speaking directly to the camera, with camera directions and integrated [Visual Hooks (2)].
+- **On-Screen Text Timing**: list each caption with timecode.
+- **Visual Direction Notes**: shot changes, props, or gestures tied to [Visual Hooks (2)].
+- **Visualization Breakdown**: step-by-step description of what the visual is and how it appears during the video, matched to the awareness level, **showing the chosen metric/threshold/formula**.
+- **Discrete Information Bank by Awareness Level (1–5)**: 2 items per level, formatted as specified.
+- **CTA Line**: awareness-specific closing from the CTA Bank.`;
+
+  // ----------- Sample Row for convenience -----------
+  const SAMPLE_ROW = `Lead Gen – Cold Outreach\tWhy volume hides positioning problems\t3\tThe Unanswered Question\tAuthority Context Hook\tNested Loops\tWhat if your audience could be doubled without posting more content?\tWhen Paul Graham says this, every founder listens — here’s why.\tI was on a sales call last week… but before I tell you what happened, you need to hear about 2019.\tVH-014 (Reverse motion effect); VH-010 (Handwritten notes close-up)\tOBJ-002: I don’t have time to make SOPs; OBJ-001: We’re fine for now, just busy\tBLF-003: Design quality determines whether SOPs stick; BLF-002: SOPs are a growth lever, not just documentation\t"[Hook 0–3s – Surface: The Unanswered Question] What if your audience could be doubled without posting more content?\n[Build 3–15s – Mid: Authority Context Hook] When Paul Graham says this, every founder listens — here’s why.\n[Sustain 15–45s – Deep: Nested Loops] I was on a sales call last week… but before I tell you what happened, you need to hear about 2019.\n[Payoff + CTA 45–60s] Deliver the promised reveal; CTA: DM 'Scale' or join waitlist."\tThe missing piece to your strategy... What if your audience could be doubled without pos...\tThe missing piece to your strategy... When Paul Graham says this, every founder listens ...\tThe missing piece to your strategy... I was on a sales call last week… but before I tell...\tDM me 'Scale' and I’ll send the playbook we used.`;
+
+  // ----------- Discrete Item Library (generic, topic-adaptable) -----------
+  // Each level has two candidates; we auto-pick #1 for preview.
+  const DISCRETE_LIBRARY = {
+    1: [
+      {
+        name: "The 60-Second Gut Check",
+        what: "A quick rule-of-thumb to see if your idea is interesting to a cold stranger.",
+        measure: "If you can’t explain the problem, solution, and win in 60s without jargon → too fuzzy.",
+        example: "“We cut your ad spend 20% by reusing top 3 creatives.” If you need 3 mins, it fails."
+      },
+      {
+        name: "The 3-Object Analogy",
+        what: "Use 3 common objects to explain your offer’s before/after.",
+        measure: "If you can’t map to 3 objects (today → tool → tomorrow) in 1 sentence → unclear.",
+        example: "“Spreadsheet (today) → Template (tool) → 90‑day plan (tomorrow).”"
+      }
+    ],
+    2: [
+      {
+        name: "The Yes/No Problem Test",
+        what: "Binary check to confirm a real pain exists.",
+        measure: "If prospect says “yes” to 2 of 3: time loss ≥3 hrs/wk, cash leak ≥$1k/mo, missed targets ≥1 month → valid pain.",
+        example: "Two yeses? Proceed; one or none → reposition."
+      },
+      {
+        name: "The Budget Friction Flag",
+        what: "Detect early budget-resistance that signals messaging misfit.",
+        measure: "If ≥50% objections mention price before value → fix promise clarity.",
+        example: "“Too expensive” before demo = positioning, not price."
+      }
+    ],
+    3: [
+      {
+        name: "The 3:1 Volume Test",
+        what: "If you need 3× more outreach to hit the same replies, you have a positioning problem.",
+        measure: "Messages this month / last month ≥ 3.0, with replies ±10% → reposition offer line.",
+        example: "600 msgs vs 200, replies flat? Change the hook, not the list."
+      },
+      {
+        name: "The 20% Offer-Mention Rule",
+        what: "Healthy replies reference the offer, not just the content.",
+        measure: "Offer-mention rate in replies ≥ 20% = good; < 20% = fix angle.",
+        example: "“How does onboarding work?” counts; “Nice post!” doesn’t."
+      }
+    ],
+    4: [
+      {
+        name: "Side‑by‑Side Win Rate",
+        what: "Compare two positioning lines against the same list.",
+        measure: "Variant B reply rate ≥ 1.4× Variant A over 300 sends → promote B.",
+        example: "A: 3.1% vs B: 4.5% over 300 → ship B."
+      },
+      {
+        name: "The 5-Step Message Trim",
+        what: "Systematically cut copy bloat that buries the promise.",
+        measure: "Remove: hedges, credentials, adjectives, nested clauses, second ask → aim ≤120 words.",
+        example: "CTR rises when ask appears by line 2."
+      }
+    ],
+    5: [
+      {
+        name: "Funnel Math Snapshot",
+        what: "Top-to-bottom metric stack to validate scale readiness.",
+        measure: "Open ≥ 40%, Reply ≥ 6%, Positive ≥ 2%, Booked ≥ 1%, Show ≥ 70%, Close ≥ 25%.",
+        example: "At 10k sends → 100 bookings → 25 closes."
+      },
+      {
+        name: "Lag/Lead Indicator Pair",
+        what: "Use a leading signal to predict revenue 14–30 days out.",
+        measure: "If Positive Reply/Send ≥ 1.8% for 10 days → revenue +15% next 30 days.",
+        example: "Sustain 2.0% PRS → pipeline lifts next month."
+      }
+    ]
+  };
+
+  // ----------- Elements -----------
+  const input = document.getElementById('input');
+  const output = document.getElementById('output');
+  const buildBtn = document.getElementById('build');
+  const copyBtn = document.getElementById('copy');
+  const clearBtn = document.getElementById('clear');
+  const loadSample = document.getElementById('loadSample');
+  const awarenessSelect = document.getElementById('awarenessSelect');
+  const previewPre = document.getElementById('preview');
+  const switchEl = document.getElementById('switch');
+
+  // ----------- Helpers -----------
+  function detectAwareness(raw){
+    // Try TSV (3rd field). Fallback: find standalone 1-5.
+    const line = (raw||'').trim().split(/\r?\n/).pop() || '';
+    const tsv = line.split('\t');
+    if (tsv.length >= 3) {
+      const n = parseInt(tsv[2], 10);
+      if (n>=1 && n<=5) return n;
+    }
+    const m = line.match(/(?:^|[^\d])(1|2|3|4|5)(?:[^\d]|$)/);
+    return m ? parseInt(m[1],10) : 3; // default to 3
+  }
+
+  function detectTopic(raw){
+    const line = (raw||'').trim().split(/\r?\n/).pop() || '';
+    const tsv = line.split('\t');
+    if (tsv.length) return tsv[0].trim();
+    const csv = line.split(',');
+    return (csv[0]||'').trim() || 'Your Topic';
+  }
+
+  function renderPreview(level, topic){
+    const bank = DISCRETE_LIBRARY[level] || [];
+    const pick = bank[0]; // choose first item as canonical weave
+    if (!pick){
+      return 'No preview available.';
+    }
+    return [
+      `Awareness Level ${level} • Chosen Discrete Item`,
+      `Topic Context: ${topic}`,
+      ``,
+      `• Name: ${pick.name}`,
+      `• What it is: ${pick.what}`,
+      `• Measure/Threshold: ${pick.measure}`,
+      `• 1-line Example: ${pick.example}`,
+      ``,
+      `This item will be woven into the Deep Hook and visualized on-screen (chart/diagram) per the SOP.`
+    ].join('\n');
+  }
+
+  function buildPromptFromRow(raw){
+    const trimmed = (raw || '').trim();
+    if (!trimmed) return '';
+    const fence = '```';
+    return `${SOP}\n\n**Row Data (pasted):**\n${fence}\n${trimmed}\n${fence}`;
+  }
+
+  function updatePreview(){
+    const raw = input.value;
+    const autoLevel = detectAwareness(raw);
+    const selected = awarenessSelect.value === 'auto' ? autoLevel : parseInt(awarenessSelect.value,10);
+    const topic = detectTopic(raw);
+    const text = renderPreview(selected, topic);
+    previewPre.textContent = text;
+  }
+
+  // ----------- Actions -----------
+  function build(){
+    output.textContent = buildPromptFromRow(input.value);
+    updatePreview();
+  }
+
+  // Toggle behavior
+  switchEl.addEventListener('click', () => {
+    switchEl.classList.toggle('active');
+    previewPre.classList.toggle('hidden');
+    if (!previewPre.classList.contains('hidden')) updatePreview();
+  });
+
+  buildBtn.addEventListener('click', build);
+  awarenessSelect.addEventListener('change', updatePreview);
+
+  clearBtn.addEventListener('click', () => {
+    input.value=''; output.textContent=''; previewPre.textContent=''; 
+  });
+
+  loadSample.addEventListener('click', () => { input.value = SAMPLE_ROW; build(); });
+
+  copyBtn.addEventListener('click', async () => {
+    try{
+      await navigator.clipboard.writeText(output.textContent || '');
+      copyBtn.textContent = 'Copied!';
+      setTimeout(()=> copyBtn.textContent = 'Copy to Clipboard', 1200);
+    }catch(e){
+      copyBtn.textContent = 'Copy failed';
+      setTimeout(()=> copyBtn.textContent = 'Copy to Clipboard', 1200);
+    }
+  });
+</script>
+</body>
+</html>
