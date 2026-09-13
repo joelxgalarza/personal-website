@@ -1,181 +1,146 @@
-/* joelgalarza.com - Minimal, text-first design */
+/* joelgalarza.com
+   Text first. Serif, generous measure, black on off-white. */
 
 :root {
-  --text-color: #000;
-  --bg-color: #fafaf8;
-  --accent: #000;
-  --serif: 'Georgia', 'Times New Roman', serif;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --line-height: 1.7;
-  --max-width: 700px;
-  --spacing-unit: 1rem;
+  --ink: #14140f;
+  --ink-soft: #5a5a52;
+  --paper: #fbfaf7;
+  --rule: #d8d5cc;
+  --measure: 34rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #f5f5f3;
-    --bg-color: #1a1a18;
-    --accent: #f5f5f3;
+    --ink: #ece9e1;
+    --ink-soft: #9c988d;
+    --paper: #15150f;
+    --rule: #35342c;
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-html, body {
-  font-family: var(--serif);
-  font-size: 16px;
-  line-height: var(--line-height);
-  color: var(--text-color);
-  background-color: var(--bg-color);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  padding: 2rem 1rem;
+  margin: 0;
+  padding: 3rem 1.5rem 5rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", Times, serif;
+  font-size: 1.125rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-header {
-  margin-bottom: 3rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--text-color);
+nav,
+main,
+footer {
+  max-width: var(--measure);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 nav {
-  font-family: var(--sans);
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
 }
 
 nav a {
+  color: var(--ink-soft);
   text-decoration: none;
-  color: var(--text-color);
-  margin-right: 1.5rem;
+  margin-right: 1.25rem;
 }
 
 nav a:hover {
+  color: var(--ink);
   text-decoration: underline;
 }
 
-main {
-  max-width: var(--max-width);
-  margin: 0 auto;
+.headshot {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 0 1.75rem;
 }
 
 h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
   font-weight: 400;
-  line-height: 1.3;
-}
-
-h1 + p {
-  font-size: 1.1rem;
-  font-style: italic;
-  margin-bottom: 2rem;
-  color: var(--text-color);
-  opacity: 0.9;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 h2 {
-  font-size: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1.25rem;
   font-weight: 400;
-}
-
-h3 {
-  font-size: 1.1rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
+  font-style: italic;
 }
 
 p {
-  margin-bottom: 1rem;
+  margin: 0 0 1.35rem;
+}
+
+.positioning {
+  margin-bottom: 2rem;
+  color: var(--ink-soft);
+}
+
+.contact {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
 }
 
 a {
-  color: var(--text-color);
-  text-decoration: underline;
+  color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
 a:hover {
-  opacity: 0.7;
+  color: var(--ink-soft);
 }
 
-ul, ol {
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
+ul {
+  margin: 0 0 1.35rem;
+  padding-left: 1.25rem;
 }
 
 li {
   margin-bottom: 0.5rem;
 }
 
-code {
-  font-family: 'Courier New', monospace;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  font-size: 0.95rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  code {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-}
-
-blockquote {
-  border-left: 3px solid var(--text-color);
-  padding-left: 1.5rem;
-  margin: 1.5rem 0;
-  font-style: italic;
-  opacity: 0.85;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid var(--text-color);
-  margin: 2rem 0;
-}
-
 footer {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--text-color);
+  margin-top: 3.5rem;
   font-size: 0.95rem;
-  opacity: 0.8;
+  color: var(--ink-soft);
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 1.5rem 0;
+footer a {
+  color: var(--ink-soft);
 }
 
-@media (max-width: 640px) {
+.updated {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 40rem) {
   body {
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.25rem 3.5rem;
+    font-size: 1.0625rem;
   }
 
-  h1 {
-    font-size: 1.8rem;
-  }
+  h1 { font-size: 1.75rem; }
 
-  h2 {
-    font-size: 1.3rem;
-  }
-
-  nav a {
-    display: block;
-    margin-bottom: 0.5rem;
-    margin-right: 0;
-  }
+  nav { margin-bottom: 2.25rem; }
 }
