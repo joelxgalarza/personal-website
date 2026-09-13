@@ -1,0 +1,14 @@
+{
+  "name": "joelgalarza.com",
+  "version": "1.0.0",
+  "description": "Personal website - portfolio, writing, and AEO/SEO",
+  "type": "module",
+  "scripts": {
+    "dev": "npx http-server public -p 3000 -c-1",
+    "build": "echo 'Static site - no build step needed'",
+    "test": "echo 'No tests defined'"
+  },
+  "keywords": ["portfolio", "growth", "operations"],
+  "author": "Joel Galarza",
+  "license": "MIT"
+}
